@@ -1,18 +1,17 @@
 package io.github.cloudate9.endermaning.teleporter;
 
+import dev.triumphteam.gui.builder.item.ItemBuilder;
 import io.github.cloudate9.endermaning.config.HybridConfig;
 import io.github.cloudate9.endermaning.config.OptionsConfig;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.inject.Inject;
-import java.util.List;
 import java.util.Objects;
 
 public class HybridTeleporterObject implements TeleporterObject {
@@ -21,32 +20,29 @@ public class HybridTeleporterObject implements TeleporterObject {
     private final HybridConfig hybridConfig;
     private final OptionsConfig optionsConfig;
 
-    private final ItemStack infiniteTeleporter = new ItemStack(Material.ENDER_PEARL);
-    private final ItemStack randomTeleporter = new ItemStack(Material.ENDER_PEARL);
+    private final ItemStack infiniteTeleporter;
+    private final ItemStack randomTeleporter;
 
     @Inject
-    public HybridTeleporterObject(JavaPlugin plugin, HybridConfig hybridConfig, OptionsConfig optionsConfig) {
+    public HybridTeleporterObject(
+            JavaPlugin plugin,
+            MiniMessage miniMessage,
+            HybridConfig hybridConfig,
+            OptionsConfig optionsConfig
+    ) {
         this.plugin = plugin;
         this.hybridConfig = hybridConfig;
         this.optionsConfig = optionsConfig;
 
-        ItemMeta infiniteTeleporterMeta = infiniteTeleporter.getItemMeta();
-        infiniteTeleporterMeta.lore(List.of(Component.text("Infinite Teleporter")));
+        infiniteTeleporter = ItemBuilder.from(Material.ENDER_PEARL)
+                .name(miniMessage.deserialize("<light_purple>Teleporter</light_purple>"))
+                .lore(Component.text("Infinite Teleporter"))
+                .build();
 
-        infiniteTeleporterMeta.displayName(
-                Component.text("Teleporter", TextColor.color(255, 85, 255)) //Light purple
-        );
-
-        infiniteTeleporter.setItemMeta(infiniteTeleporterMeta);
-
-        ItemMeta randomTeleporterMeta = randomTeleporter.getItemMeta();
-        randomTeleporterMeta.lore(List.of(Component.text("Random Teleporter")));
-
-        randomTeleporterMeta.displayName(
-                Component.text("Teleporter", TextColor.color(255, 85, 255)) //Light purple
-        );
-
-        randomTeleporter.setItemMeta(randomTeleporterMeta);
+        randomTeleporter = ItemBuilder.from(Material.ENDER_PEARL)
+                .name(miniMessage.deserialize("<light_purple>Teleporter</light_purple>"))
+                .lore(Component.text("Random Teleporter"))
+                .build();
     }
 
     @Override
