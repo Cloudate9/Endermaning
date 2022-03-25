@@ -125,7 +125,7 @@ public class WaterDamageSubCommand implements SubCommand {
                 Map.of(
                         getName(), List.of("enable", "disable", "peaceful", "easy", "normal", "hard")
                 ),
-                Map.of(List.of("peaceful", "easy", "normal", "hard"), List.of("<damage per second>"))
+                Map.of(List.of("peaceful", "easy", "normal", "hard"), List.of("<damage per 10 ticks>"))
         );
     }
 }
