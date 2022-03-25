@@ -102,7 +102,15 @@ public class HybridTeleportation implements Listener {
 
             } else {
                 //Known bug: If the player clicks another inventory with the pearl, the cooldown will be started.
-                teleporterObject.giveIfAbsent(e.getPlayer());
+                //We change the amount instead of using teleporterObject#giveIfAbsent, as we want to preserve the slot of the teleporter.
+                e.getItem().setAmount(2);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        //Ensure that player only has one teleporter.
+                        e.getItem().setAmount(1);
+                    }
+                }.runTaskLater(plugin, 1L);
                 cooldown.put(e.getPlayer(), optionsConfig.hybridTeleportCooldown);
                 decreaseCooldown(e.getPlayer());
 
