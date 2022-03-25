@@ -74,7 +74,7 @@ public class HidePumpkinPlayersSubCommand implements SubCommand {
 
     @Override
     public List<String> getName() {
-        return List.of("hidepumpkinplayers", "hpp");
+        return List.of("hidepumpkinplayers", "hidep", "hpp");
     }
 
     @Override
