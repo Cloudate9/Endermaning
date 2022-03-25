@@ -64,7 +64,7 @@ public class TeleportCooldownSubCommand implements SubCommand {
 
     @Override
     public List<String> getName() {
-        return List.of("teleportcooldown", "tpc", "cooldown");
+        return List.of("teleportcooldown", "cooldown", "tpc");
     }
 
     @Override
