@@ -93,7 +93,7 @@ public class WaterDamageSubCommand implements SubCommand {
 
     @Override
     public List<String> getName() {
-        return List.of("waterdamage", "water");
+        return List.of("waterdamage", "water", "wd");
     }
 
     @Override
