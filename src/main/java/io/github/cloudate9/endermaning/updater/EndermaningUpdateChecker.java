@@ -47,7 +47,7 @@ public class EndermaningUpdateChecker implements UpdateChecker {
                     Scanner readGit = new Scanner(
                             new InputStreamReader(
                                     new URL(
-                                            "https://raw.githubusercontent.com/Cloudate9/InstaMineDeepslate/master/build.gradle.kts"
+                                            "https://raw.githubusercontent.com/Cloudate9/Endermaning/master/build.gradle.kts"
                                     ).openStream()
                             )
                     );
