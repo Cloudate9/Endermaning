@@ -6,8 +6,6 @@ import io.github.cloudate9.endermaning.config.*;
 import io.github.cloudate9.endermaning.listeners.*;
 import io.github.cloudate9.endermaning.teleporter.DaggerTeleporterComponent;
 import io.github.cloudate9.endermaning.teleporter.TeleporterObject;
-import io.github.cloudate9.endermaning.water.DaggerWaterCheckerComponent;
-import io.github.cloudate9.endermaning.water.WaterChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -53,18 +51,7 @@ public class Endermaning extends JavaPlugin {
         Objects.requireNonNull(getCommand("endermaning"))
                 .setExecutor(DaggerCommandComponent.create().getSubCommandManager());
 
-        //Water checker jic of reload.
-        WaterChecker waterChecker = DaggerWaterCheckerComponent.create().getWaterChecker();
-
-        if (optionsConfig.waterDamageEnabled) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (hybridConfig.hybridList.contains(player.getUniqueId().toString())) {
-                    waterChecker.addToCheck(player);
-                }
-            }
-        }
-
-        //WARNING: Pumpkin checker is not checked on reload!
+        //WARNING: Pumpkin checker and water checker is not checked on reload!
 
     }
 
