@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.cloudate9.endermaning"
-version = "2.0.0-prerelease"
+version = "2.0.0"
 
 repositories {
     mavenCentral()

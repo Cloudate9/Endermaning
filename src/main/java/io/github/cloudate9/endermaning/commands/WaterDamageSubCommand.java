@@ -1,11 +1,15 @@
 package io.github.cloudate9.endermaning.commands;
 
 import com.github.secretx33.sccfg.Config;
+import io.github.cloudate9.endermaning.config.HybridConfig;
 import io.github.cloudate9.endermaning.config.MessagesConfig;
 import io.github.cloudate9.endermaning.config.OptionsConfig;
+import io.github.cloudate9.endermaning.water.WaterChecker;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -14,19 +18,25 @@ import java.util.Map;
 @SuppressWarnings("ClassCanBeRecord")
 public class WaterDamageSubCommand implements SubCommand {
 
+    private final HybridConfig hybridConfig;
     private final MessagesConfig messagesConfig;
     private final MiniMessage miniMessage;
     private final OptionsConfig optionsConfig;
+    private final WaterChecker waterChecker;
 
     @Inject
     public WaterDamageSubCommand(
+            HybridConfig hybridConfig,
             MessagesConfig messagesConfig,
             MiniMessage miniMessage,
-            OptionsConfig optionsConfig
+            OptionsConfig optionsConfig,
+            WaterChecker waterChecker
     ) {
+        this.hybridConfig = hybridConfig;
         this.messagesConfig = messagesConfig;
         this.miniMessage = miniMessage;
         this.optionsConfig = optionsConfig;
+        this.waterChecker = waterChecker;
     }
 
     @Override
@@ -41,8 +51,20 @@ public class WaterDamageSubCommand implements SubCommand {
         }
 
         switch (args.get(0).toLowerCase()) {
-            case "enable", "true" -> optionsConfig.waterDamageEnabled = true;
-            case "disable", "false" -> optionsConfig.waterDamageEnabled = false;
+            case "enable", "true" -> {
+                optionsConfig.waterDamageEnabled = true;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (hybridConfig.hybridList.contains(player.getUniqueId().toString()))
+                        waterChecker.addToCheck(player);
+                }
+            }
+            case "disable", "false" -> {
+                optionsConfig.waterDamageEnabled = false;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (hybridConfig.hybridList.contains(player.getUniqueId().toString()))
+                        waterChecker.removeFromCheck(player);
+                }
+            }
             case "peaceful", "easy", "normal", "hard" -> {
                 if (args.size() < 2) {
                     sender.sendMessage(
@@ -93,7 +115,7 @@ public class WaterDamageSubCommand implements SubCommand {
 
     @Override
     public List<String> getName() {
-        return List.of("waterdamage", "water");
+        return List.of("waterdamage", "water", "wd");
     }
 
     @Override
@@ -103,7 +125,7 @@ public class WaterDamageSubCommand implements SubCommand {
                 Map.of(
                         getName(), List.of("enable", "disable", "peaceful", "easy", "normal", "hard")
                 ),
-                Map.of(List.of("peaceful", "easy", "normal", "hard"), List.of("<damage per second>"))
+                Map.of(List.of("peaceful", "easy", "normal", "hard"), List.of("<damage per 10 ticks>"))
         );
     }
 }

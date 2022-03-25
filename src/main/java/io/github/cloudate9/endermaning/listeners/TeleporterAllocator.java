@@ -69,16 +69,6 @@ public class TeleporterAllocator implements Listener {
     }
 
     @EventHandler
-    public void nonPlayerTeleporterMove(InventoryMoveItemEvent e) {
-        ItemStack potentialTeleporter = e.getItem();
-        if (teleporterObject.getInfiniteTeleporter().equals(potentialTeleporter)
-                || teleporterObject.getRandomTeleporter().equals(potentialTeleporter)) {
-
-            e.setCancelled(true); //Teleporter should not exist outside of inventory.
-        }
-    }
-
-    @EventHandler
     public void removeStrayItem(EntityPickupItemEvent e) {
         ItemStack potentialTeleporter = e.getItem().getItemStack();
         if (teleporterObject.getInfiniteTeleporter().equals(potentialTeleporter)

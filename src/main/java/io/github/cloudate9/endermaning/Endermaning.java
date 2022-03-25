@@ -6,9 +6,6 @@ import io.github.cloudate9.endermaning.config.*;
 import io.github.cloudate9.endermaning.listeners.*;
 import io.github.cloudate9.endermaning.teleporter.DaggerTeleporterComponent;
 import io.github.cloudate9.endermaning.teleporter.TeleporterObject;
-import io.github.cloudate9.endermaning.updater.DaggerUpdateCheckerComponent;
-import io.github.cloudate9.endermaning.water.DaggerWaterCheckerComponent;
-import io.github.cloudate9.endermaning.water.WaterChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -38,7 +35,8 @@ public class Endermaning extends JavaPlugin {
         this.legacyConverter();
         new Metrics(this, 11128);
 
-        DaggerUpdateCheckerComponent.create().getUpdateChecker().checkForUpdate();
+        //Currently, update checker is called in the UpdateInformer class, in the Checker's init method.
+        //This is due to me not being able to properly implement a singleton in Dagger 2 for the UpdateChecker (impl) class.
 
         ListenerComponent listenerComponent = DaggerListenerComponent.create();
         Bukkit.getPluginManager().registerEvents(listenerComponent.getOfflineHybridStatusInformer(), this);
@@ -47,23 +45,13 @@ public class Endermaning extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(listenerComponent.getSilkHands(), this);
         Bukkit.getPluginManager().registerEvents(listenerComponent.getStopEndermenHostility(), this);
         Bukkit.getPluginManager().registerEvents(listenerComponent.getTeleporterAllocator(), this);
+        Bukkit.getPluginManager().registerEvents(listenerComponent.getUpdateInformer(), this);
         Bukkit.getPluginManager().registerEvents(listenerComponent.getWaterRegisterer(), this);
 
         Objects.requireNonNull(getCommand("endermaning"))
                 .setExecutor(DaggerCommandComponent.create().getSubCommandManager());
 
-        //Water checker jic of reload.
-        WaterChecker waterChecker = DaggerWaterCheckerComponent.create().getWaterChecker();
-
-        if (optionsConfig.waterDamageEnabled) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (hybridConfig.hybridList.contains(player.getUniqueId().toString())) {
-                    waterChecker.addToCheck(player);
-                }
-            }
-        }
-
-        //WARNING: Pumpkin checker is not checked on reload!
+        //WARNING: Pumpkin checker and water checker is not checked on reload!
 
     }
 

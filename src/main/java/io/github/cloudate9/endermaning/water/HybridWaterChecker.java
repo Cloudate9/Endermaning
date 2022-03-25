@@ -42,6 +42,10 @@ public class HybridWaterChecker implements WaterChecker {
 
             @Override
             public void run() {
+                if (!optionsConfig.waterDamageEnabled) {
+                    stopCheck();
+                    return;
+                }
                 for (Player player : playersToCheck) {
                     if (player == null) {
                         removeFromCheck(null);
@@ -60,10 +64,13 @@ public class HybridWaterChecker implements WaterChecker {
                 }
                 startCheck(); //Recursive
             }
-        }.runTaskLater(plugin, 20L); //Only check once per second, cause damage once per second.
+        }.runTaskLater(plugin, 10L); //Run every 10 ticks as specified in the rest of the plugin.
     }
 
     private void stopCheck() {
-        if (checker != null) checker.cancel();
+        if (checker != null) {
+            checker.cancel();
+            checker = null;
+        }
     }
 }

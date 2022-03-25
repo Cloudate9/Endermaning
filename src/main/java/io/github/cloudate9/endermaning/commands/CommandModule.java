@@ -63,6 +63,10 @@ public interface CommandModule {
 
     @Binds
     @IntoSet
+    SubCommand teleportCooldownSubCommand(TeleportCooldownSubCommand teleportCooldownSubCommand);
+
+    @Binds
+    @IntoSet
     SubCommand teleporterSubCommand(TeleporterSubCommand teleporterSubCommand);
 
     @Binds

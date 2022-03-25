@@ -62,7 +62,7 @@ public class MessagesConfig {
             "Change if players with Enderman hybrid status get hurt in rain or water.</gold>";
 
     @Path("help")
-    public String waterDamageValueHelp = "<gold>/edm water [peaceful/easy/normal/hard] <damage per tick>: " +
+    public String waterDamageValueHelp = "<gold>/edm water [peaceful/easy/normal/hard] <damage per 10 ticks>: " +
             "Change the amount of damage players with Enderman hybrid status get hurt by in rain or water.</gold>";
 
 
