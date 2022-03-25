@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import javax.inject.Inject;
 
-
+@SuppressWarnings("ClassCanBeRecord")
 public class UpdateInformer implements Listener {
 
     private final MessagesConfig messagesConfig;
@@ -18,7 +18,7 @@ public class UpdateInformer implements Listener {
     private final UpdateChecker updateChecker;
 
     @Inject
-    public UpdateInformer(MessagesConfig messagesConfig, MiniMessage miniMessage,UpdateChecker updateChecker) {
+    public UpdateInformer(MessagesConfig messagesConfig, MiniMessage miniMessage, UpdateChecker updateChecker) {
         this.messagesConfig = messagesConfig;
         this.miniMessage = miniMessage;
         this.updateChecker = updateChecker;
@@ -31,7 +31,13 @@ public class UpdateInformer implements Listener {
         if (!e.getPlayer().hasPermission("endermaning.update")) return;
         e.getPlayer().sendMessage(
                 miniMessage.deserialize(messagesConfig.pluginUpdateAvailable)
-                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/bukkit-plugins/endermaning"))
+                        //Preferably move ClickEvent to message config with mini message, once it works.
+                        .clickEvent(
+                                ClickEvent.clickEvent(
+                                        ClickEvent.Action.OPEN_URL,
+                                        "https://www.curseforge.com/minecraft/bukkit-plugins/endermaning"
+                                )
+                        )
         );
     }
 

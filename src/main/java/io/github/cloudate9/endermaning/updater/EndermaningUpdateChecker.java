@@ -2,6 +2,7 @@ package io.github.cloudate9.endermaning.updater;
 
 import io.github.cloudate9.endermaning.config.MessagesConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -17,19 +18,21 @@ import java.util.Scanner;
 @Singleton
 public class EndermaningUpdateChecker implements UpdateChecker {
 
-    private boolean firstCheck;
-    private boolean updateFound;
+    private boolean firstCheck = true;
+    private boolean updateFound = false;
     private BukkitTask checker = null;
 
     private final JavaPlugin plugin;
-    private final MiniMessage miniMessage;
     private final MessagesConfig messagesConfig;
+    private final MiniMessage miniMessage;
 
     @Inject
-    public EndermaningUpdateChecker(JavaPlugin plugin, MiniMessage miniMessage, MessagesConfig messagesConfig) {
+    public EndermaningUpdateChecker(JavaPlugin plugin, MessagesConfig messagesConfig, MiniMessage miniMessage) {
         this.plugin = plugin;
-        this.miniMessage = miniMessage;
         this.messagesConfig = messagesConfig;
+        this.miniMessage = miniMessage;
+
+        checkForUpdate();
     }
 
     @Override
@@ -64,7 +67,12 @@ public class EndermaningUpdateChecker implements UpdateChecker {
                     if (Objects.equals(version, plugin.getDescription().getVersion())) {
                         if (firstCheck) {
                             //No parsing, cause a String is required.
-                            plugin.getLogger().info(messagesConfig.pluginUpToDate);
+                            plugin.getLogger().info(PlainTextComponentSerializer.plainText().serialize(
+                                            miniMessage.deserialize(
+                                                    messagesConfig.pluginUpToDate
+                                            )
+                                    )
+                            );
                             firstCheck = false;
                         }
 
@@ -81,10 +89,20 @@ public class EndermaningUpdateChecker implements UpdateChecker {
 
                     updateFound = true;
 
-                    plugin.getLogger().info(messagesConfig.pluginUpdateAvailable);
+                    plugin.getLogger().info(PlainTextComponentSerializer.plainText().serialize(
+                                    miniMessage.deserialize(
+                                            messagesConfig.pluginUpdateAvailable
+                                    )
+                            )
+                    );
 
                 } catch (IOException ex) {
-                    plugin.getLogger().info(messagesConfig.pluginUpdateCheckFail);
+                    plugin.getLogger().info(PlainTextComponentSerializer.plainText().serialize(
+                                    miniMessage.deserialize(
+                                            messagesConfig.pluginUpdateCheckFail
+                                    )
+                            )
+                    );
 
                     checker = new BukkitRunnable() {
                         @Override

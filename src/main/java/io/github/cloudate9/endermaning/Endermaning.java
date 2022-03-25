@@ -6,7 +6,6 @@ import io.github.cloudate9.endermaning.config.*;
 import io.github.cloudate9.endermaning.listeners.*;
 import io.github.cloudate9.endermaning.teleporter.DaggerTeleporterComponent;
 import io.github.cloudate9.endermaning.teleporter.TeleporterObject;
-import io.github.cloudate9.endermaning.updater.DaggerUpdateCheckerComponent;
 import io.github.cloudate9.endermaning.water.DaggerWaterCheckerComponent;
 import io.github.cloudate9.endermaning.water.WaterChecker;
 import org.bstats.bukkit.Metrics;
@@ -38,7 +37,8 @@ public class Endermaning extends JavaPlugin {
         this.legacyConverter();
         new Metrics(this, 11128);
 
-        DaggerUpdateCheckerComponent.create().getUpdateChecker().checkForUpdate();
+        //Currently, update checker is called in the UpdateInformer class, in the Checker's init method.
+        //This is due to me not being able to properly implement a singleton in Dagger 2 for the UpdateChecker (impl) class.
 
         ListenerComponent listenerComponent = DaggerListenerComponent.create();
         Bukkit.getPluginManager().registerEvents(listenerComponent.getOfflineHybridStatusInformer(), this);
@@ -47,6 +47,7 @@ public class Endermaning extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(listenerComponent.getSilkHands(), this);
         Bukkit.getPluginManager().registerEvents(listenerComponent.getStopEndermenHostility(), this);
         Bukkit.getPluginManager().registerEvents(listenerComponent.getTeleporterAllocator(), this);
+        Bukkit.getPluginManager().registerEvents(listenerComponent.getUpdateInformer(), this);
         Bukkit.getPluginManager().registerEvents(listenerComponent.getWaterRegisterer(), this);
 
         Objects.requireNonNull(getCommand("endermaning"))
