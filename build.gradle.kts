@@ -21,7 +21,7 @@ dependencies {
 
     implementation("com.github.secretx33.sc-cfg:sccfg-bukkit:main-SNAPSHOT")
     implementation("com.github.secretx33.sc-cfg:sccfg-yaml:main-SNAPSHOT")
-    annotationProcessor("com.google.dagger:dagger-compiler:2.41")
+    annotationProcessor("com.google.dagger:dagger-compiler:2.42")
     implementation("com.google.dagger:dagger:2.41")
     implementation("dev.triumphteam:triumph-gui:3.1.2")
     implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
