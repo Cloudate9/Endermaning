@@ -69,7 +69,8 @@ spigot {
     authors = listOf("Cloudate9")
     apiVersion = "1.18"
     description = "Allows players to become part Enderman."
-    website = "https://cloudate9.github.io/"
+    website = "https://cloudate9.com"
+    excludeLibraries = listOf("*")
     commands {
         create("endermaning") {
             aliases = listOf("edm")
