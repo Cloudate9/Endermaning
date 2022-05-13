@@ -2,7 +2,7 @@ import kr.entree.spigradle.kotlin.*
 
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("kr.entree.spigradle") version "2.2.4"
+    id("kr.entree.spigradle") version "2.4.2"
     java
 }
 
@@ -69,7 +69,8 @@ spigot {
     authors = listOf("Cloudate9")
     apiVersion = "1.18"
     description = "Allows players to become part Enderman."
-    website = "https://cloudate9.github.io/"
+    website = "https://cloudate9.com"
+    excludeLibraries = listOf("*")
     commands {
         create("endermaning") {
             aliases = listOf("edm")
