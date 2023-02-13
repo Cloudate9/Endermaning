@@ -25,7 +25,7 @@ dependencies {
     implementation("com.google.dagger:dagger:2.43.2")
     implementation("dev.triumphteam:triumph-gui:3.1.3")
     implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
-    implementation("org.bstats:bstats-bukkit:3.0.0")
+    implementation("org.bstats:bstats-bukkit:3.0.1")
 }
 
 tasks {
